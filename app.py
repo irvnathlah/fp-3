@@ -1,7 +1,7 @@
 import streamlit as st
 from sqlalchemy import text
 
-list_doctor = ['', 'dr. Nurita', 'dr. Yogi', 'dr. Wibowo', 'dr. Ulama', 'dr. Ping']
+list_teknisi = ['', 'Jaenuri', 'Subaeri', 'Markipat', 'Johnson', 'Awaluddin']
 list_kendala = ['', 'male', 'female']
 
 conn = st.connection("postgresql", type="sql", 
@@ -40,7 +40,7 @@ if page == "Edit Data":
 
         with st.expander(f'a.n. {nama_pelanggan_lama}'):
             with st.form(f'data-{id}'):
-                nama_teknisi_baru = st.selectbox("nama_teknisi", list_doctor, list_doctor.index(nama_teknisi_lama))
+                nama_teknisi_baru = st.selectbox("nama_teknisi", list_teknisi, list_teknisi.index(nama_teknisi_lama))
                 nama_pelanggan_baru = st.text_input("nama_pelanggan", nama_pelanggan_lama)
                 jenis_kelamin_baru = st.selectbox("jenis_kelamin", list_kendala, list_kendala.index(jenis_kelamin_lama))
                 kendala_baru = st.multiselect("kendala", ['cough', 'flu', 'headache', 'stomache'], eval(kendala_lama))
