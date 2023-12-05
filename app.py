@@ -2,13 +2,13 @@ import streamlit as st
 from sqlalchemy import text
 
 list_doctor = ['', 'dr. Nurita', 'dr. Yogi', 'dr. Wibowo', 'dr. Ulama', 'dr. Ping']
-list_symptom = ['', 'male', 'female']
+list_kendala = ['', 'male', 'female']
 
 conn = st.connection("postgresql", type="sql", 
                      url="postgresql://irvnathlah:KHZeoGLtD51X@ep-broad-breeze-56976802.us-east-2.aws.neon.tech/web")
 with conn.session as session:
     query = text('CREATE TABLE IF NOT EXISTS bengkeloke (id serial, nama_teknisi varchar, nama_pelanggan varchar, jenis_kelamin char(25), \
-                                                       symptom text, handphone varchar, address text, tanggal date);')
+                                                       kendala text, nomor_telepon varchar, alamat text, tanggal_servis date);')
     session.execute(query)
 
 st.header('DATA BASE BENGKEL OKE')
@@ -21,7 +21,7 @@ if page == "View Data":
 if page == "Edit Data":
     if st.button('Tambah Data'):
         with conn.session as session:
-            query = text('INSERT INTO bengkeloke (nama_teknisi, nama_pelanggan, jenis_kelamin, symptom, handphone, address, waktu, tanggal) \
+            query = text('INSERT INTO bengkeloke (nama_teknisi, nama_pelanggan, jenis_kelamin, kendala, nomor_telepon, alamat, waktu, tanggal_servis) \
                           VALUES (:1, :2, :3, :4, :5, :6, :7, :8);')
             session.execute(query, {'1':'', '2':'', '3':'', '4':'[]', '5':'', '6':'', '7':None, '8':None})
             session.commit()
@@ -32,22 +32,22 @@ if page == "Edit Data":
         nama_teknisi_lama = result["nama_teknisi"]
         nama_pelanggan_lama = result["nama_pelanggan"]
         jenis_kelamin_lama = result["jenis_kelamin"]
-        symptom_lama = result["symptom"]
-        handphone_lama = result["handphone"]
-        address_lama = result["address"]
+        kendala_lama = result["kendala"]
+        nomor_telepon_lama = result["nomor_telepon"]
+        alamat_lama = result["alamat"]
         waktu_lama = result["waktu"]
-        tanggal_lama = result["tanggal"]
+        tanggal_servis_lama = result["tanggal_servis"]
 
         with st.expander(f'a.n. {nama_pelanggan_lama}'):
             with st.form(f'data-{id}'):
                 nama_teknisi_baru = st.selectbox("nama_teknisi", list_doctor, list_doctor.index(nama_teknisi_lama))
                 nama_pelanggan_baru = st.text_input("nama_pelanggan", nama_pelanggan_lama)
-                jenis_kelamin_baru = st.selectbox("jenis_kelamin", list_symptom, list_symptom.index(jenis_kelamin_lama))
-                symptom_baru = st.multiselect("symptom", ['cough', 'flu', 'headache', 'stomache'], eval(symptom_lama))
-                handphone_baru = st.text_input("handphone", handphone_lama)
-                address_baru = st.text_input("address", address_lama)
+                jenis_kelamin_baru = st.selectbox("jenis_kelamin", list_kendala, list_kendala.index(jenis_kelamin_lama))
+                kendala_baru = st.multiselect("kendala", ['cough', 'flu', 'headache', 'stomache'], eval(kendala_lama))
+                nomor_telepon_baru = st.text_input("nomor_telepon", nomor_telepon_lama)
+                alamat_baru = st.text_input("alamat", alamat_lama)
                 waktu_baru = st.time_input("waktu", waktu_lama)
-                tanggal_baru = st.date_input("tanggal", tanggal_lama)
+                tanggal_servis_baru = st.date_input("tanggal_servis", tanggal_servis_lama)
                 
                 col1, col2 = st.columns([1, 6])
 
@@ -55,11 +55,11 @@ if page == "Edit Data":
                     if st.form_submit_button('UPDATE'):
                         with conn.session as session:
                             query = text('UPDATE bengkeloke \
-                                          SET nama_teknisi=:1, nama_pelanggan=:2, jenis_kelamin=:3, symptom=:4, \
-                                          handphone=:5, address=:6, waktu=:7, tanggal=:8 \
+                                          SET nama_teknisi=:1, nama_pelanggan=:2, jenis_kelamin=:3, kendala=:4, \
+                                          nomor_telepon=:5, alamat=:6, waktu=:7, tanggal_servis=:8 \
                                           WHERE id=:9;')
-                            session.execute(query, {'1':nama_teknisi_baru, '2':nama_pelanggan_baru, '3':jenis_kelamin_baru, '4':str(symptom_baru), 
-                                                    '5':handphone_baru, '6':address_baru, '7':waktu_baru, '8':tanggal_baru, '9':id})
+                            session.execute(query, {'1':nama_teknisi_baru, '2':nama_pelanggan_baru, '3':jenis_kelamin_baru, '4':str(kendala_baru), 
+                                                    '5':nomor_telepon_baru, '6':alamat_baru, '7':waktu_baru, '8':tanggal_servis_baru, '9':id})
                             session.commit()
                             st.experimental_rerun()
                 
