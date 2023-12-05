@@ -2,7 +2,7 @@ import streamlit as st
 from sqlalchemy import text
 
 list_teknisi = ['', 'Jaenuri', 'Subaeri', 'Markipat', 'Johnson', 'Awaluddin']
-list_kendala = ['', 'male', 'female']
+list_kendala = ['', 'Laki-laki', 'Perempuan']
 
 conn = st.connection("postgresql", type="sql", 
                      url="postgresql://irvnathlah:KHZeoGLtD51X@ep-broad-breeze-56976802.us-east-2.aws.neon.tech/web")
