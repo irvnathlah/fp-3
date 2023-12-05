@@ -11,7 +11,7 @@ with conn.session as session:
                                                        kendala text, nomor_telepon varchar, alamat text, tanggal_servis date);')
     session.execute(query)
 
-st.header('zDATA BASE BENGKEL OKE')
+st.header('DATA BASE BENGKEL OKE')
 page = st.sidebar.selectbox("Pilih Menu", ["View Data","Edit Data"])
 
 if page == "View Data":
