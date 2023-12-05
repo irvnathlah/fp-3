@@ -12,7 +12,7 @@ with conn.session as session:
     session.execute(query)
 
 st.header('DATA BASE BENGKEL OKE')
-page = st.sidebar.selectbox("Pilih Menu", ["View Data","Edit Data"])
+page = st.sidebar.selectbox("Pilih Menu", ["View Data", "Edit Data", "Search Data"])
 
 if page == "View Data":
     data = conn.query('SELECT * FROM bengkeloke ORDER By id;', ttl="0").set_index('id')
@@ -69,3 +69,22 @@ if page == "Edit Data":
                         session.execute(query, {'1':id})
                         session.commit()
                         st.experimental_rerun()
+
+# untuk bikin fitur search
+
+if page == "Search Data":
+    st.subheader("Pencarian Data")
+    search_by = st.selectbox("Cari Berdasarkan", ["Nama Teknisi", "Nama Pelanggan", "Tanggal Servis"])
+
+    if search_by == "Nama Teknisi":
+        search_term = st.selectbox("Pilih Nama Teknisi", list_teknisi)
+        query = text(f"SELECT * FROM bengkeloke WHERE nama_teknisi = '{search_term}' ORDER By id;")
+    elif search_by == "Nama Pelanggan":
+        search_term = st.text_input("Masukkan Nama Pelanggan")
+        query = text(f"SELECT * FROM bengkeloke WHERE nama_pelanggan ILIKE '%{search_term}%' ORDER By id;")
+    elif search_by == "Tanggal Servis":
+        search_term = st.date_input("Pilih Tanggal Servis")
+        query = text(f"SELECT * FROM bengkeloke WHERE tanggal_servis = '{search_term}' ORDER By id;")
+
+    data = conn.query(query, ttl="0").set_index('id')
+    st.dataframe(data)
