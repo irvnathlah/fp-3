@@ -86,5 +86,5 @@ if page == "Search Data":
         search_term = st.date_input("Pilih Tanggal Servis")
         query = text(f"SELECT * FROM bengkeloke WHERE tanggal_servis = '{search_term}' ORDER By id;")
 
-    data = conn.query(query, ttl="0").set_index('id')
+     data = conn.query(query, ttl="0", use_container_width=True).set_index('id')
     st.dataframe(data)
