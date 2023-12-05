@@ -43,7 +43,7 @@ if page == "Edit Data":
                 nama_teknisi_baru = st.selectbox("nama_teknisi", list_teknisi, list_teknisi.index(nama_teknisi_lama))
                 nama_pelanggan_baru = st.text_input("nama_pelanggan", nama_pelanggan_lama)
                 jenis_kelamin_baru = st.selectbox("jenis_kelamin", list_kendala, list_kendala.index(jenis_kelamin_lama))
-                kendala_baru = st.multiselect("kendala", ['cough', 'flu', 'headache', 'stomache'], eval(kendala_lama))
+                kendala_baru = st.multiselect("kendala", ['Ganti oli', 'Tune up', 'Servis rutin', 'Sepul mati', 'Ganti rantai', 'Full servis berat'], eval(kendala_lama))
                 nomor_telepon_baru = st.text_input("nomor_telepon", nomor_telepon_lama)
                 alamat_baru = st.text_input("alamat", alamat_lama)
                 waktu_baru = st.time_input("waktu", waktu_lama)
