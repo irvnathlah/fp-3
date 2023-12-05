@@ -12,7 +12,7 @@ with conn.session as session:
     session.execute(query)
 
 st.header('DATA BASE BENGKEL OKE')
-page = st.sidebar.selectbox("Pilih Menu", ["View Data","Edit Data"])
+page = st.sidebar.selectbox("Pilih Menu", ["View Data", "Edit Data", "Search Data"])
 
 if page == "View Data":
     data = conn.query('SELECT * FROM bengkeloke ORDER By id;', ttl="0").set_index('id')
@@ -69,3 +69,15 @@ if page == "Edit Data":
                         session.execute(query, {'1':id})
                         session.commit()
                         st.experimental_rerun()
+
+# .sssss
+
+if page == "Search Data":
+    search_query = st.text_input("Masukkan nama teknisi untuk mencari:", "")
+    
+    if st.button("Cari"):
+        search_query = search_query.strip()
+        if search_query:
+            query = text("SELECT * FROM bengkeloke WHERE nama_teknisi ILIKE :1 ORDER By id;")
+            result = conn.query(query, {"1": f"%{search_query}%"}).set_index('id')
+            st.dataframe(result)
